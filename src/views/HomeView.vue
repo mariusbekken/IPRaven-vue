@@ -610,6 +610,7 @@ import { ref, computed, onMounted } from 'vue'
 import axios from 'axios'
 import { getFlagSrc } from '@/utils/flags.js'
 import { collectFullFingerprint } from '@/utils/fingerprint/index.js'
+
 const ipravenLogo = new URL(
   '/src/assets/images/ipraven-logo.png',
   import.meta.url

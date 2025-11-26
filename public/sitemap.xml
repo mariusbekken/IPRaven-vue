@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+>
+  <!-- Hjem / landing -->
+  <url>
+    <loc>https://ipraven.com/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Blogg-oversikt -->
+  <url>
+    <loc>https://ipraven.com/blog</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Blogginnlegg 1 -->
+  <url>
+    <loc>https://ipraven.com/blog/browser-fingerprinting-intro</loc>
+    <lastmod>2025-01-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Blogginnlegg 2 -->
+  <url>
+    <loc>https://ipraven.com/blog/ip-address-privacy-tracking</loc>
+    <lastmod>2025-01-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Blogginnlegg 3 -->
+  <url>
+    <loc>https://ipraven.com/blog/modern-tracking-without-cookies</loc>
+    <lastmod>2025-01-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+</urlset>
