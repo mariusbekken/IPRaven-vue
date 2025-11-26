@@ -1,0 +1,15 @@
+// src/utils/fingerprint/hash.js
+
+export function hashString(str) {
+  if (!str || typeof str !== 'string') return '0'
+
+  var hash = 0
+  for (var i = 0; i < str.length; i++) {
+    var chr = str.charCodeAt(i)
+    hash = (hash << 5) - hash + chr
+    hash |= 0 // 32-bit int
+  }
+
+  // retur som positiv integer i string-form
+  return String(hash >>> 0)
+}

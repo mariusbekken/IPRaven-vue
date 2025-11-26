@@ -113,7 +113,11 @@
           <div class="row" v-if="safeInfo.geo.city || safeInfo.geo.region">
             <span class="label">City / Region</span>
             <span class="value">
-              {{ [safeInfo.geo.city, safeInfo.geo.region].filter(Boolean).join(', ') || 'Unknown' }}
+              {{
+                [safeInfo.geo.city, safeInfo.geo.region]
+                  .filter(Boolean)
+                  .join(', ') || 'Unknown'
+              }}
             </span>
           </div>
 
@@ -247,6 +251,322 @@
         </div>
       </section>
 
+      <!-- Browser Fingerprint (client-side & security) -->
+      <section class="card" v-if="fingerprint && fingerprint.available">
+        <div class="card-header">
+          <h2>Browser Fingerprint (client-side & security)</h2>
+        </div>
+        <div class="card-body">
+          <!-- Basic -->
+          <div class="row">
+            <span class="label">Browser timezone</span>
+            <span class="value">
+              {{ fingerprint.browser?.timezone || 'Unknown' }}
+            </span>
+          </div>
+
+          <div class="row">
+            <span class="label">Browser language(s)</span>
+            <span class="value">
+              {{
+                (fingerprint.basic?.languages || []).join(', ') || 'Unknown'
+              }}
+            </span>
+          </div>
+
+          <div class="row">
+            <span class="label">Platform / Vendor</span>
+            <span class="value">
+              {{
+                [fingerprint.basic?.platform, fingerprint.basic?.vendor]
+                  .filter(Boolean)
+                  .join(' – ') || 'Unknown'
+              }}
+            </span>
+          </div>
+
+          <!-- Screen & hardware -->
+          <div class="row">
+            <span class="label">Screen</span>
+            <span class="value">
+              <span v-if="fingerprint.screen">
+                {{ fingerprint.screen.width }}×{{ fingerprint.screen.height }}
+                @ {{ fingerprint.screen.pixelRatio }}x DPR
+              </span>
+              <span v-else>Unknown</span>
+            </span>
+          </div>
+
+          <div class="row">
+            <span class="label">CPU cores</span>
+            <span class="value">
+              {{ fingerprint.hardware?.cores ?? 'Unknown' }}
+            </span>
+          </div>
+
+          <div class="row">
+            <span class="label">Approx. RAM (GB)</span>
+            <span class="value">
+              {{ fingerprint.hardware?.memoryGB ?? 'Unknown' }}
+            </span>
+          </div>
+
+          <div class="row">
+            <span class="label">Touch support</span>
+            <span class="value">
+              {{
+                fingerprint.input?.touchSupport
+                  ? `Yes (${fingerprint.input.maxTouchPoints} touch points)`
+                  : 'No / Not reported'
+              }}
+            </span>
+          </div>
+
+          <!-- SECURITY-RELEVANT -->
+          <div class="row">
+            <span class="label">Security – Do Not Track</span>
+            <span class="value">
+              {{
+                fingerprint.security?.doNotTrack === '1'
+                  ? 'Enabled (DNT=1)'
+                  : fingerprint.security?.doNotTrack === '0'
+                    ? 'Disabled (DNT=0)'
+                    : 'Not provided'
+              }}
+            </span>
+          </div>
+
+          <div class="row">
+            <span class="label">Security – Cookies</span>
+            <span class="value">
+              {{
+                fingerprint.security?.cookiesEnabled === true
+                  ? 'Enabled'
+                  : fingerprint.security?.cookiesEnabled === false
+                    ? 'Disabled / Blocked'
+                    : 'Unknown'
+              }}
+            </span>
+          </div>
+
+          <div class="row">
+            <span class="label">Security – Storage APIs</span>
+            <span class="value">
+              LocalStorage:
+              {{ fingerprint.security?.localStorage ? 'Yes' : 'No' }},
+              SessionStorage:
+              {{ fingerprint.security?.sessionStorage ? 'Yes' : 'No' }},
+              IndexedDB:
+              {{ fingerprint.security?.indexedDB ? 'Yes' : 'No' }}
+            </span>
+          </div>
+
+          <div class="row">
+            <span class="label">Security – Secure context</span>
+            <span class="value">
+              {{
+                fingerprint.security?.secureContext === true
+                  ? 'Yes (HTTPS / secure)'
+                  : fingerprint.security?.secureContext === false
+                    ? 'No (insecure context)'
+                    : 'Unknown'
+              }}
+            </span>
+          </div>
+
+          <div class="row">
+            <span class="label">Network (browser view)</span>
+            <span class="value">
+              <span v-if="fingerprint.network">
+                Type: {{ fingerprint.network.effectiveType || 'Unknown' }},
+                Downlink:
+                {{
+                  fingerprint.network.downlinkMbps != null
+                    ? fingerprint.network.downlinkMbps + ' Mbps'
+                    : 'Unknown'
+                }},
+                RTT:
+                {{
+                  fingerprint.network.rttMs != null
+                    ? fingerprint.network.rttMs + ' ms'
+                    : 'Unknown'
+                }},
+                Data saver:
+                {{
+                  fingerprint.network.saveData === true
+                    ? 'On'
+                    : fingerprint.network.saveData === false
+                      ? 'Off'
+                      : 'Unknown'
+                }}
+              </span>
+              <span v-else>Not exposed by this browser</span>
+            </span>
+          </div>
+        </div>
+      </section>
+
+            <!-- Advanced Fingerprints (Canvas / WebGL / Audio) -->
+      <section class="card" v-if="fingerprint && fingerprint.available">
+        <div class="card-header">
+          <h2>Advanced Fingerprints (Canvas, WebGL, Audio)</h2>
+        </div>
+        <div class="card-body">
+          <!-- REALISM SCORE -->
+          <div class="row">
+            <span class="label">
+              Realism score
+              <button
+                type="button"
+                class="info-btn"
+                @click="toggleScoreInfo"
+              >
+                ?
+              </button>
+            </span>
+            <span class="value">
+              <span v-if="fingerprint.realismScore">
+                {{ fingerprint.realismScore.total }} / 100
+                <span v-if="fingerprint.realismScore.label">
+                  ({{ fingerprint.realismScore.label }})
+                </span>
+              </span>
+              <span v-else>Unknown</span>
+            </span>
+          </div>
+
+          <div
+            v-if="showScoreInfo && fingerprint.realismScore"
+            class="score-info-box"
+          >
+            <p><strong>What this score means:</strong></p>
+            <p>{{ fingerprint.realismScore.message }}</p>
+            <p>
+              Approximate "uniqueness bits":
+              <strong>{{ fingerprint.realismScore.bits }}</strong>
+            </p>
+            <p class="small">
+              This is an educational estimate of how unique your browser
+              fingerprint is. Real trackers combine similar signals (screen,
+              hardware, fonts, WebGL, canvas, audio, features…) to recognize you
+              across sites even without cookies.
+            </p>
+          </div>
+
+          <!-- Canvas fingerprint -->
+          <div class="row">
+            <span class="label">Canvas fingerprint</span>
+            <span class="value">
+              <span v-if="fingerprint.canvas && fingerprint.canvas.supported">
+                Hash: {{ fingerprint.canvas.hash }}
+                <span v-if="fingerprint.canvas.dataUrlLength">
+                  (data length: {{ fingerprint.canvas.dataUrlLength }})
+                </span>
+              </span>
+              <span v-else>
+                Not supported{{
+                  fingerprint.canvas && fingerprint.canvas.reason
+                    ? ' – ' + fingerprint.canvas.reason
+                    : ''
+                }}
+              </span>
+            </span>
+          </div>
+
+          <!-- WebGL -->
+          <div class="row">
+            <span class="label">WebGL fingerprint</span>
+            <span class="value">
+              <span v-if="fingerprint.webgl && fingerprint.webgl.supported">
+                Vendor: {{ fingerprint.webgl.vendor || 'Unknown' }},
+                Renderer: {{ fingerprint.webgl.renderer || 'Unknown' }},
+                Hash: {{ fingerprint.webgl.hash }},
+                Extensions: {{ fingerprint.webgl.extensionsCount }}
+              </span>
+              <span v-else>
+                Not supported{{
+                  fingerprint.webgl && fingerprint.webgl.reason
+                    ? ' – ' + fingerprint.webgl.reason
+                    : ''
+                }}
+              </span>
+            </span>
+          </div>
+
+          <!-- Audio -->
+          <div class="row">
+            <span class="label">Audio fingerprint</span>
+            <span class="value">
+              <span v-if="fingerprint.audio && fingerprint.audio.supported">
+                Hash: {{ fingerprint.audio.hash }}
+              </span>
+              <span v-else>
+                Not supported{{
+                  fingerprint.audio && fingerprint.audio.reason
+                    ? ' – ' + fingerprint.audio.reason
+                    : ''
+                }}
+              </span>
+            </span>
+          </div>
+
+          <!-- Fonts -->
+          <div class="row">
+            <span class="label">Fonts (sample)</span>
+            <span class="value">
+              <span
+                v-if="
+                  fingerprint.fonts &&
+                  fingerprint.fonts.detected &&
+                  fingerprint.fonts.detected.length
+                "
+              >
+                {{
+                  fingerprint.fonts.detected.slice(0, 8).join(', ')
+                }}
+                <span
+                  v-if="fingerprint.fonts.detected.length > 8"
+                >
+                  (+ {{ fingerprint.fonts.detected.length - 8 }} more)
+                </span>
+              </span>
+              <span v-else>
+                Not detected (blocked or none of the tested fonts installed)
+              </span>
+            </span>
+          </div>
+
+          <!-- Feature support -->
+          <div class="row">
+            <span class="label">Advanced features</span>
+            <span class="value">
+              <span v-if="fingerprint.features && fingerprint.features.supported">
+                ServiceWorker:
+                {{ fingerprint.features.serviceWorker ? 'Yes' : 'No' }},
+                WebRTC:
+                {{ fingerprint.features.webRTC ? 'Yes' : 'No' }},
+                Gamepad:
+                {{ fingerprint.features.gamepad ? 'Yes' : 'No' }},
+                Battery API:
+                {{ fingerprint.features.battery ? 'Yes' : 'No' }},
+                WebSocket:
+                {{ fingerprint.features.webSocket ? 'Yes' : 'No' }},
+                CSS Grid:
+                {{
+                  fingerprint.features.cssGrid === true
+                    ? 'Yes'
+                    : fingerprint.features.cssGrid === false
+                      ? 'No'
+                      : 'Unknown'
+                }}
+              </span>
+              <span v-else>Unknown</span>
+            </span>
+          </div>
+        </div>
+      </section>
+
+
       <!-- Raw data -->
       <section class="card">
         <div class="card-header">
@@ -268,9 +588,20 @@
     </div>
 
     <!-- Initial loading -->
-    <div v-else class="loading">
-      Loading client information...
+    <div v-else class="loader-wrapper">
+    <div class="loader-inner">
+      <img
+        :src="ipravenLogo"
+        alt="IPRaven logo"
+        class="loader-logo"
+      />
+      <p class="loader-text">Analyzing your client fingerprint…</p>
+      <div class="loader-bar">
+        <div class="loader-bar-fill"></div>
+      </div>
     </div>
+  </div>
+
   </div>
 </template>
 
@@ -278,11 +609,21 @@
 import { ref, computed, onMounted } from 'vue'
 import axios from 'axios'
 import { getFlagSrc } from '@/utils/flags.js'
+import { collectFullFingerprint } from '@/utils/fingerprint/index.js'
+const ipravenLogo = new URL(
+  '/src/assets/images/ipraven-logo.png',
+  import.meta.url
+).href
 
-const clientInfo = ref(null)   // rå respons (for raw JSON-visning)
+
+const clientInfo = ref(null)
 const dataLoaded = ref(false)
 const copyMessage = ref('')
 const errorMessage = ref('')
+
+// fingerprint-state
+const fingerprint = ref(null)
+const showScoreInfo = ref(false)
 
 // flagg-state
 const flagError = ref(false)
@@ -356,10 +697,17 @@ const displayedFlagSrc = computed(() => {
 })
 
 function onFlagError() {
-  // første gang bildet feiler, bytt til fallback
   if (!flagError.value) {
     flagError.value = true
   }
+}
+
+function fakeDelay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
+
+function toggleScoreInfo() {
+  showScoreInfo.value = !showScoreInfo.value
 }
 
 async function copy(text, label) {
@@ -395,7 +743,6 @@ async function loadClientInfo() {
     const data = response.data
     console.log('Raw API response:', data)
 
-    // Forventet shape: { client_info: { success: true/false, ... } }
     const ci = data?.client_info
 
     if (!ci) {
@@ -405,14 +752,13 @@ async function loadClientInfo() {
     }
 
     if (ci.success === false) {
-      // Rate limit / feil → vis bare feilmelding og reload-knapp
       errorMessage.value = ci.error || ci.message || 'Request failed'
       clientInfo.value = null
       return
     }
 
-    // success === true → render hele UI
     clientInfo.value = ci
+    await fakeDelay(5000) // min 1s "fake" loading
     dataLoaded.value = true
   } catch (error) {
     console.error('Error fetching client info:', error)
@@ -424,10 +770,13 @@ function reload() {
   loadClientInfo()
 }
 
-onMounted(() => {
+onMounted(async () => {
   loadClientInfo()
+  // samle full fingerprint (base + canvas + webgl + audio + score)
+  fingerprint.value = await collectFullFingerprint()
 })
 </script>
+
 
 <style scoped>
 .page {
@@ -617,4 +966,97 @@ onMounted(() => {
     margin-top: -0.25rem;
   }
 }
+
+.info-btn {
+  margin-left: 0.4rem;
+  border: 1px solid #4b5563;
+  background: transparent;
+  color: #e5e7eb;
+  border-radius: 999px;
+  width: 18px;
+  height: 18px;
+  font-size: 0.75rem;
+  line-height: 1;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.info-btn:hover {
+  background: #1f2937;
+}
+
+.score-info-box {
+  grid-column: 1 / -1;
+  margin: 0.5rem 0 0.8rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 0.5rem;
+  border: 1px solid #1f2937;
+  background: rgba(15, 23, 42, 0.9);
+  font-size: 0.85rem;
+  color: #d1d5db;
+}
+
+.score-info-box .small {
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+.loader-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #e5e7eb;
+}
+
+.loader-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.loader-logo {
+  width: 80px;
+  height: auto;
+  filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.7));
+}
+
+.loader-text {
+  font-size: 0.95rem;
+  color: #9ca3af;
+}
+
+.loader-bar {
+  width: 160px;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.9);
+  overflow: hidden;
+  margin-top: 0.25rem;
+}
+
+.loader-bar-fill {
+  height: 100%;
+  width: 40%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #6366f1, #22d3ee);
+  animation: loaderBarSlide 1s ease-in-out infinite;
+}
+
+@keyframes loaderBarSlide {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
 </style>
