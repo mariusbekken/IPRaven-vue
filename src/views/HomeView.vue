@@ -759,7 +759,7 @@ async function loadClientInfo() {
     }
 
     clientInfo.value = ci
-    await fakeDelay(5000) // min 1s "fake" loading
+    await fakeDelay(1000) // min 1s "fake" loading
     dataLoaded.value = true
   } catch (error) {
     console.error('Error fetching client info:', error)
