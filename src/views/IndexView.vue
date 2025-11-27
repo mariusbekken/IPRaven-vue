@@ -82,7 +82,7 @@
             </section>
 
             <!-- Device & Browser -->
-             <section class="card">
+            <section class="card">
                 <div class="card-header">
                     <h2>Device & Browser</h2>
                 </div>
@@ -106,8 +106,56 @@
                         <span class="label">Language(s)</span>
                         <span class="value">{{ safeInfo.client.languages || 'Unknown' }}</span>
                     </div>
+
+                    <div class="row">
+                        <span class="label">User-Agent</span>
+                        <span class="value copyable multiline" @click="copy(safeInfo.client.user_agent, 'User-Agent')">{{ safeInfo.client.user_agent || 'Unknown' }}</span>
+                    </div>
+
+                    <div class="row">
+                        <span class="label">Bot detected</span>
+                        <span class="value">{{ safeInfo.client.is_bot ? 'Yes' : 'No' }}</span>
+                    </div>
                 </div>
-             </section>
+            </section>
+
+             <!-- Security & Request -->
+            <section class="card">
+                <div class="card-header">
+                    <h2>Security & Request</h2>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <span class="label">HTTPS</span>
+                        <span class="value">{{ safeInfo.security.https ? 'Yes' : 'No' }}</span>
+                    </div>
+
+                    <div class="row">
+                        <span class="label">TLS version</span>
+                        <span class="value">{{ safeInfo.security.tls_version || 'Unknown' }}</span>
+                    </div>
+
+                    <div class="row">
+                        <span class="label">DNT (Do not track)</span>
+                        <span class="value">{{ safeInfo.security.dnt === '1' ? 'Enabled' : 'Disabled / Not sent' }}</span>
+                    </div>
+
+                    <div class="row">
+                        <span class="label">HTTP method</span>
+                        <span class="value">{{ safeInfo.request.method || 'Unknown' }}</span>
+                    </div>
+
+                    <div class="row">
+                        <span class="label">Full URL</span>
+                        <span class="value multiline">{{ safeInfo.request.full_url || 'Unknown' }}</span>
+                    </div>
+
+                    <div class="row">
+                        <span class="label">Referrer</span>
+                        <span class="value multiline">{{ safeInfo.request.referrer || 'Unknown' }}</span>
+                    </div>
+                </div>
+            </section>
         </div>
 
         <div class="loader" v-else>
