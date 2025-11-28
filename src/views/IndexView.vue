@@ -1,8 +1,4 @@
 <template>
-    <header class="header">
-
-    </header>
-
     <div class="main">
         <div class="error" v-if="errorMessage">
             <p>{{ errorMessage }}</p>
@@ -156,6 +152,114 @@
                     </div>
                 </div>
             </section>
+
+            <!-- Browser Fingerprint -->
+            <section class="card" v-if="fingerprint && fingerprint.available">
+                <div class="card-header">
+                    <h2>Browser Fingerprint (client-side & security)</h2>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <span class="label">Browser timezone</span>
+                        <span class="value">{{ fingerprint.browser?.timezone || 'Unknown' }}</span>
+                    </div>
+
+                    <div class="row">
+                        <span class="label">Browser language(s)</span>
+                        <span class="value">{{ (fingerprint.basic?.languages || []).join(', ') || 'Unknown' }}</span>
+                    </div>
+
+                    <div class="row">
+                        <span class="label">Platform / Vendor</span>
+                        <span class="value">{{ [fingerprint.basic?.platform, fingerprint.basic?.vendor].filter(Boolean).join(' - ') || 'Unknown' }}</span>
+                    </div>
+
+                    <div class="row">
+                        <span class="label">Screen</span>
+                        <span class="value" v-if="fingerprint.screen">{{ fingerprint.screen.width }}x{{ fingerprint.screen.height }} @ {{ fingerprint.screen.pixelRatio }}x DPR</span>
+                        <span class="value" v-else>Unknown</span>
+                    </div>
+
+                    <div class="row">
+                        <span class="label">CPU cores</span>
+                        <span class="value">{{ fingerprint.hardware?.cores ?? 'Unknown' }}</span>
+                    </div>
+
+                    <div class="row">
+                        <span class="label">Approx. RAM (GB)</span>
+                        <span class="value">{{ fingerprint.hardware?.memoryGB ?? 'Unknown' }}</span>
+                    </div>
+
+                    <div class="row">
+                        <span class="label">Touch support</span>
+                        <span class="value">{{ fingerprint.input?.touchSupport ? `Yes (${fingerprint.input.maxTouchPoints} touch points)` : 'No / Not reported' }}</span>
+                    </div>
+
+                    <div class="row">
+                        <span class="label">DNT (Do not track)</span>
+                        <span class="value">{{ fingerprint.security?.doNotTrack === '1' ? 'Enabled (DNT=1)' : fingerprint.security?.doNotTrack === '0' ? 'Disabled (DNT=0)' : 'Not provided' }}</span>
+                    </div>
+
+                    <div class="row">
+                        <span class="label">Cookies</span>
+                        <span class="value">{{ fingerprint.security?.cookiesEnabled === true ? 'Enabled' : fingerprint.security?.cookiesEnabled === false ? 'Disabled / Blocked' : 'Unknown'}}</span>
+                    </div>
+
+                    <div class="row">
+                        <span class="label">Storage APIs</span>
+                        <span class="value">LocalStorage: {{ fingerprint.security?.localStorage ? 'Yes' : 'No' }}, SessionStorage: {{ fingerprint.security?.sessionStorage ? 'Yes' : 'No' }},  IndexedDB: {{ fingerprint.security?.indexedDB ? 'Yes' : 'No' }}</span>
+                    </div>
+
+                    <div class="row">
+                        <span class="label">Secure context</span>
+                        <span class="value">{{ fingerprint.security?.secureContext === true ? 'Yes (HTTPS / secure)' : fingerprint.security?.secureContext === false ? 'No (insecure context)' : 'Unknown' }}</span>
+                    </div>
+
+                    <div class="row">
+                        <span class="label">Network (browser view)</span>
+                        <span class="value" v-if="fingerprint.network">Type: {{ fingerprint.network.effectiveType || 'Unknown' }}, Downlink: {{ fingerprint.network.downlinkMbps != null ? fingerprint.network.downlinkMbps + ' Mbps' : 'Unknown' }}, RTT: {{ fingerprint.network.rttMs != null ? fingerprint.network.rttMs + ' ms' : 'Unknown' }}, Data saver: {{ fingerprint.network.saveData === true ? 'On' : fingerprint.network.saveData === false ? 'Off' : 'Unknown' }}</span>
+                        <span class="value" v-else>Not exposed by this browser</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Advanced Fingerprints -->
+            <section class="card" v-if="fingerprint && fingerprint.available">
+                <div class="card-header">
+                    <h2>Advanced Fingerprints (Canvas, WebGL, Audio)</h2>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <span class="label">Canvas fingerprint</span>
+                        <span class="value" v-if="fingerprint.canvas && fingerprint.canvas.supported">Hash: {{ fingerprint.canvas.hash }} <span v-if="fingerprint.canvas.dataUrlLength">(data length: {{ fingerprint.canvas.dataUrlLength }})</span></span>
+                        <span class="value" v-else>Not supported ({{ fingerprint.canvas && fingerprint.canvas.reason ? ' - ' + fingerprint.canvas.reason : '' }})</span>
+                    </div>
+
+                    <div class="row">
+                        <span class="label">WebGL fingerprint</span>
+                        <span class="value" v-if="fingerprint.webgl && fingerprint.webgl.supported">Vendor: {{ fingerprint.webgl.vendor || 'Unknown' }}, Renderer: {{ fingerprint.webgl.renderer || 'Unknown' }}, Hash: {{ fingerprint.webgl.hash }}, Extensions: {{ fingerprint.webgl.extensionsCount }}</span>
+                        <span class="value" v-else>Not supported ({{ fingerprint.webgl && fingerprint.webgl.reason ? ' - ' + fingerprint.webgl.reason : '' }})</span>
+                    </div>
+
+                    <div class="row">
+                        <span class="label">Audio fingerprint</span>
+                        <span class="value" v-if="fingerprint.audio && fingerprint.audio.supported">Hash: {{ fingerprint.audio.hash }}</span>
+                        <span class="value" v-else>Not supported ({{ fingerprint.audio && fingerprint.audio.reason ? ' - ' + fingerprint.audio.reason : '' }})</span>
+                    </div>
+
+                    <div class="row">
+                        <span class="label">Fonts (sample)</span>
+                        <span class="value" v-if="fingerprint.fonts && fingerprint.fonts.detected && fingerprint.fonts.detected.length">{{ fingerprint.fonts.detected.slice(0, 8).join(', ') }} <span v-if="fingerprint.fonts.detected.length > 8">(+ {{ fingerprint.fonts.detected.length - 8 }} more)</span></span>
+                        <span class="value" v-else>Not detected (blocked or none of the tested fonts installed)</span>
+                    </div>
+
+                    <div class="row">
+                        <span class="label">Advanced features</span>
+                        <span class="value" v-if="fingerprint.features && fingerprint.features.supported">ServiceWorker: {{ fingerprint.features.serviceWorker ? 'Yes' : 'No' }}, WebRTC: {{ fingerprint.features.webRTC ? 'Yes' : 'No' }}, Gamepad: {{ fingerprint.features.gamepad ? 'Yes' : 'No' }}, Battery API: {{ fingerprint.features.battery ? 'Yes' : 'No' }}, WebSocket: {{ fingerprint.features.webSocket ? 'Yes' : 'No' }}, CSS Grid: {{ fingerprint.features.cssGrid === true ? 'Yes' : fingerprint.features.cssGrid === false ? 'No' : 'Unknown' }}</span>
+                        <span class="label" v-else>Unknown</span>
+                    </div>
+                </div>
+            </section>
         </div>
 
         <div class="loader" v-else>
@@ -168,14 +272,11 @@
             </div>
         </div>
     </div>
-
-    <FooterComponent />
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import axios from 'axios'
-import FooterComponent from '@/components/FooterComponent.vue'
 import { getFlagSrc } from '@/utils/flags'
 import { collectFullFingerprint } from '@/utils/fingerprint/index.js'
 
@@ -306,7 +407,7 @@ async function loadClientInfo() {
         }
 
         clientInfo.value = ci
-        await fakeDelay(5000)
+        await fakeDelay(2000)
         dataLoaded.value = true
     } catch (error) {
         errorMessage.value = 'Error fetching client info'
@@ -321,5 +422,4 @@ onMounted(async () => {
     loadClientInfo()
     fingerprint.value = await collectFullFingerprint()
 })
-
 </script>
