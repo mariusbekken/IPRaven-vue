@@ -267,9 +267,10 @@
 
                     <div class="card-info-box" v-if="showScoreInfo && fingerprint.realismScore">
                         <p><strong>What this score means:</strong></p>
+                        <p>Your <strong>Uniqueness Score</strong> estimates how easy it is to identify or track your browser based on its fingerprint. A higher score means your setup is more unique compared to other users, which makes you easier to recognize across different websites.</p>
                         <p>{{ fingerprint.realismScore.message }}</p>
-                        <p>Approximate "uniqueness bits": <strong>{{ fingerprint.realismScore.bits }}</strong></p>
-                        <p class="small">This is an educational estimate of how unique your browser fingerprint is. Real trackers combine similar signals (screen, hardware, fonts, WebGL, canvas, audio, features...) to recognize you across sites even without cookies.</p>
+                        <p>Approximate uniqueness entropy: <strong>{{ fingerprint.realismScore.bits }}</strong></p>
+                        <p class="small">This is educational only. Real-world trackers combine many signals (screen size, hardware, fonts, WebGL, canvas, audio, performance, network features, and more) to create highly persistent identifiers, even without cookies.</p>
                     </div>
                 </div>
             </section>
