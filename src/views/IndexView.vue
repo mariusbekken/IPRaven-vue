@@ -71,7 +71,7 @@
                     </div>
 
                     <div class="row" v-if="safeInfo.geo.timezone">
-                        <span class="label">Timezone</span>
+                        <span class="label">Timezone (IP location)</span>
                         <span class="value">{{ safeInfo.geo.timezone }}</span>
                     </div>
                 </div>
@@ -80,7 +80,8 @@
             <!-- Device & Browser -->
             <section class="card">
                 <div class="card-header">
-                    <h2>Device & Browser</h2>
+                    <h2>Device & Browser (Server View)</h2>
+                    <p class="card-desc">Information extracted from your HTTP request headers. This is what websites normally see.</p>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -156,17 +157,13 @@
             <!-- Browser Fingerprint -->
             <section class="card" v-if="fingerprint && fingerprint.available">
                 <div class="card-header">
-                    <h2>Browser Fingerprint (client-side & security)</h2>
+                    <h2>Browser Fingerprint (JavaScript Runtime Data)</h2>
+                    <p class="card-desc">Information obtained from your browser using JavaScript. This includes hardware, screen, APIs and real browser settings.</p>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <span class="label">Browser timezone</span>
                         <span class="value">{{ fingerprint.browser?.timezone || 'Unknown' }}</span>
-                    </div>
-
-                    <div class="row">
-                        <span class="label">Browser language(s)</span>
-                        <span class="value">{{ (fingerprint.basic?.languages || []).join(', ') || 'Unknown' }}</span>
                     </div>
 
                     <div class="row">
@@ -193,11 +190,6 @@
                     <div class="row">
                         <span class="label">Touch support</span>
                         <span class="value">{{ fingerprint.input?.touchSupport ? `Yes (${fingerprint.input.maxTouchPoints} touch points)` : 'No / Not reported' }}</span>
-                    </div>
-
-                    <div class="row">
-                        <span class="label">DNT (Do not track)</span>
-                        <span class="value">{{ fingerprint.security?.doNotTrack === '1' ? 'Enabled (DNT=1)' : fingerprint.security?.doNotTrack === '0' ? 'Disabled (DNT=0)' : 'Not provided' }}</span>
                     </div>
 
                     <div class="row">
@@ -257,6 +249,27 @@
                         <span class="label">Advanced features</span>
                         <span class="value" v-if="fingerprint.features && fingerprint.features.supported">ServiceWorker: {{ fingerprint.features.serviceWorker ? 'Yes' : 'No' }}, WebRTC: {{ fingerprint.features.webRTC ? 'Yes' : 'No' }}, Gamepad: {{ fingerprint.features.gamepad ? 'Yes' : 'No' }}, Battery API: {{ fingerprint.features.battery ? 'Yes' : 'No' }}, WebSocket: {{ fingerprint.features.webSocket ? 'Yes' : 'No' }}, CSS Grid: {{ fingerprint.features.cssGrid === true ? 'Yes' : fingerprint.features.cssGrid === false ? 'No' : 'Unknown' }}</span>
                         <span class="label" v-else>Unknown</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Security report -->
+            <section class="card">
+                <div class="card-header">
+                    <h2>Security Report</h2>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <span class="label">Uniqueness Score <button class="info-btn" type="button" @click="toggleScoreInfo">?</button></span>
+                        <span class="value" v-if="fingerprint.realismScore">{{ fingerprint.realismScore.total }} / 100 <span v-if="fingerprint.realismScore.label">({{ fingerprint.realismScore.label }})</span></span>
+                        <span class="value" v-else>Unknown</span>
+                    </div>
+
+                    <div class="card-info-box" v-if="showScoreInfo && fingerprint.realismScore">
+                        <p><strong>What this score means:</strong></p>
+                        <p>{{ fingerprint.realismScore.message }}</p>
+                        <p>Approximate "uniqueness bits": <strong>{{ fingerprint.realismScore.bits }}</strong></p>
+                        <p class="small">This is an educational estimate of how unique your browser fingerprint is. Real trackers combine similar signals (screen, hardware, fonts, WebGL, canvas, audio, features...) to recognize you across sites even without cookies.</p>
                     </div>
                 </div>
             </section>
@@ -356,6 +369,10 @@ function onFlagError() {
 
 function fakeDelay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms))
+}
+
+function toggleScoreInfo() {
+    showScoreInfo.value = !showScoreInfo.value
 }
 
 async function copy(text, label) {
