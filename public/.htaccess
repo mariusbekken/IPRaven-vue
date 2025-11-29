@@ -2,11 +2,9 @@
   RewriteEngine On
   RewriteBase /
 
-  # Hvis fil eller mappe finnes, serve den som normalt
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^ - [L]
 
-  # Alt annet -> index.html (Vue håndterer videre routing)
   RewriteRule . /index.html [L]
 </IfModule>
