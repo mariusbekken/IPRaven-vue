@@ -248,6 +248,24 @@ h1, h2, h3, h4, h5, h6, p {
     opacity: 1;
 }
 
+.main-content .value.copyable.copied::after {
+    content: "Copied!";
+    color: #34d399;
+}
+
+@media (hover: none) and (pointer: coarse) {
+    .main-content .value.copyable::after {
+        display: none !important;
+    }
+}
+
+@media (hover: none) and (pointer: coarse) {
+    .main-content .value.copyable.copied {
+        color: #34d399 !important;
+        transition: color 0.2s ease;
+    }
+}
+
 .main-content .flag-icon {
     width: auto;
     height: 11px;

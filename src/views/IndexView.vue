@@ -27,12 +27,12 @@
                 <div class="card-body">
                     <div class="row">
                         <span class="label">IP address</span>
-                        <span class="value copyable" @click="copy(safeInfo.ip.address, 'IP address')">{{ safeInfo.ip.address || 'Unknown' }}</span>
+                        <span class="value copyable" @click="copy(safeInfo.ip.address, 'IP address', $event)">{{ safeInfo.ip.address || 'Unknown' }}</span>
                     </div>
 
                     <div class="row">
                         <span class="label">Hostname</span>
-                        <span class="value copyable" @click="copy(safeInfo.ip.hostname, 'Hostname')">{{ safeInfo.ip.hostname  || 'Unknown' }}</span>
+                        <span class="value copyable" @click="copy(safeInfo.ip.hostname, 'Hostname', $event)">{{ safeInfo.ip.hostname  || 'Unknown' }}</span>
                     </div>
 
                     <div class="row">
@@ -56,7 +56,7 @@
 
                     <div class="row">
                         <span class="label">Remote port</span>
-                        <span class="value copyable" @click="copy(safeInfo.network.remote_port, 'Remote port')">{{ safeInfo.network.remote_port || 'Unknown' }}</span>
+                        <span class="value copyable" @click="copy(safeInfo.network.remote_port, 'Remote port', $event)">{{ safeInfo.network.remote_port || 'Unknown' }}</span>
                     </div>
                 </div>
             </section>
@@ -69,7 +69,7 @@
                 <div class="card-body">
                     <div class="row" v-if="safeInfo.geo.country_code">
                         <span class="label">Country</span>
-                        <span class="value"><img class="flag-icon" v-if="displayedFlagSrc" :src="displayedFlagSrc" :alt="`${countryCode || 'Country'} flag`" @error="onFlagError"> {{ safeInfo.geo.country_code }}</span>
+                        <span class="value"><img class="flag-icon" v-if="displayedFlagSrc" :src="displayedFlagSrc" :alt="`${countryCode || 'Country'} flag`" @error="onFlagError"> {{ countryName }} ({{ safeInfo.geo.country_code }})</span>
                     </div>
 
                     <div class="row" v-if="safeInfo.geo.city || safeInfo.geo.region">
@@ -79,7 +79,7 @@
 
                     <div class="row" v-if="safeInfo.geo.latitude && safeInfo.geo.longitude">
                         <span class="label">Coordinates</span>
-                        <span class="value copyable" @click="copy(`${safeInfo.geo.latitude}, ${safeInfo.geo.longitude}`, 'Coordinates')">{{ safeInfo.geo.latitude }}, {{ safeInfo.geo.longitude }}</span>
+                        <span class="value copyable" @click="copy(`${safeInfo.geo.latitude}, ${safeInfo.geo.longitude}`, 'Coordinates', $event)">{{ safeInfo.geo.latitude }}, {{ safeInfo.geo.longitude }}</span>
                     </div>
 
                     <div class="row" v-if="safeInfo.geo.timezone">
@@ -118,7 +118,7 @@
 
                     <div class="row">
                         <span class="label">User-Agent</span>
-                        <span class="value copyable multiline" @click="copy(safeInfo.client.user_agent, 'User-Agent')">{{ safeInfo.client.user_agent || 'Unknown' }}</span>
+                        <span class="value copyable multiline" @click="copy(safeInfo.client.user_agent, 'User-Agent', $event)">{{ safeInfo.client.user_agent || 'Unknown' }}</span>
                     </div>
 
                     <div class="row">
@@ -308,6 +308,7 @@ import FooterComponent from '@/components/FooterComponent.vue'
 import axios from 'axios'
 import { getFlagSrc } from '@/utils/flags'
 import { collectFullFingerprint } from '@/utils/fingerprint/index.js'
+import { getCountryName } from '@/utils/countryName.js'
 
 let LOADING_TIME = 3000
 
@@ -329,6 +330,11 @@ const baseFlagSrc = computed(() => getFlagSrc(countryCode.value))
 const displayedFlagSrc = computed(() => {
     if (!baseFlagSrc.value) return null
     return flagError.value ? fallbackFlagSrc : baseFlagSrc.value
+})
+
+const countryName = computed(() => {
+    const code = safeInfo.value.geo.country_code
+    return getCountryName(code) || null
 })
 
 const safeInfo = computed(() => {
@@ -425,12 +431,22 @@ function toggleScoreInfo() {
     showScoreInfo.value = !showScoreInfo.value
 }
 
-async function copy(text, label) {
+async function copy(text, label, event) {
     if (!text) return
+
+    const el = event?.currentTarget
 
     try {
         await navigator.clipboard.writeText(text)
         copyMessage.value = `${label} copied to clipboard!`
+
+        if (el) {
+            el.classList.add('copied')
+            setTimeout(() => {
+                el.classList.remove('copied')
+            }, 1500)
+        }
+
         setTimeout(() => {
             copyMessage.value = ''
         }, 2000)
