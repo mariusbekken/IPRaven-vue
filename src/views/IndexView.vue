@@ -1,4 +1,16 @@
 <template>
+    <header class="header">
+        <div class="header-wrapper" v-if="!errorMessage && dataLoaded">
+            <div class="header-logo">
+                <img src="@/assets/images/ipraven-logo.png" alt="IPRaven logo">
+            </div>
+            <div class="header-desc">
+                <h1>IPRaven.com</h1>
+                <p><fa icon="fa-shoe-prints" fixed-width></fa> Know your digital footprint</p>
+            </div>
+        </div>
+    </header>
+
     <div class="main">
         <div class="error" v-if="errorMessage">
             <p>{{ errorMessage }}</p>
@@ -279,23 +291,29 @@
         <div class="loader" v-else>
             <div class="loader-wrapper">
                 <img class="loader-logo" :src="ipravenLogo" alt="IPRaven logo">
-                <p class="loader-text">Loading data...</p>
+                <p class="loader-text">{{ loadingMessage }}</p>
                 <div class="loader-bar">
                     <div class="loader-bar-fill"></div>
                 </div>
             </div>
         </div>
     </div>
+
+    <FooterComponent />
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
+import FooterComponent from '@/components/FooterComponent.vue'
 import axios from 'axios'
 import { getFlagSrc } from '@/utils/flags'
 import { collectFullFingerprint } from '@/utils/fingerprint/index.js'
 
+let LOADING_TIME = 3000
+
 const clientInfo = ref(null)
 const dataLoaded = ref(false)
+const loadingMessage = ref('Loading your data...')
 const copyMessage = ref('')
 const errorMessage = ref('')
 const fingerprint = ref(null)
@@ -362,6 +380,37 @@ const safeInfo = computed(() => {
     }
 })
 
+const loadingMessages = [
+    'Analyzing your browser...',
+    'Calculating fingerprint entropy...',
+    'Collection client metadata...',
+    'Measuring browser uniqueness...',
+    'Scanning request headers...',
+    'Evaulating privcacy exposure...',
+    'Inspecting device characteristics...',
+    'Reading environmental signals...',
+    'Gathering network information...',
+    'Preparing your security report...'
+]
+
+function startLoadingRotation() {
+    const interval = LOADING_TIME / loadingMessages.length
+    let index = 0
+
+    loadingMessage.value = loadingMessages[index]
+
+    const timer = setInterval(() => {
+        index ++
+
+        if (index >= loadingMessages.length) {
+            clearInterval(timer)
+            return
+        }
+
+        loadingMessage.value = loadingMessages[index]
+    }, interval)
+}
+
 function onFlagError() {
     if (!flagError.value) {
         flagError.value = true
@@ -425,7 +474,7 @@ async function loadClientInfo() {
         }
 
         clientInfo.value = ci
-        await fakeDelay(2000)
+        await fakeDelay(LOADING_TIME)
         dataLoaded.value = true
     } catch (error) {
         errorMessage.value = 'Error fetching client info'
@@ -437,6 +486,7 @@ function reload() {
 }
 
 onMounted(async () => {
+    startLoadingRotation()
     loadClientInfo()
     fingerprint.value = await collectFullFingerprint()
 })
