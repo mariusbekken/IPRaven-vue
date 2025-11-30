@@ -1,6 +1,6 @@
 <template>
     <header class="header">
-        <div class="header-wrapper" v-if="!errorMessage && dataLoaded">
+        <div class="header-wrapper" v-if="errorMessage || dataLoaded">
             <div class="header-logo">
                 <img src="@/assets/images/ipraven-logo.png" alt="IPRaven logo">
             </div>
@@ -450,7 +450,7 @@ async function copy(text, label, event) {
         setTimeout(() => {
             copyMessage.value = ''
         }, 2000)
-    } catch (err) {
+    } catch (e) {
         errorMessage.value = `Failed to copy ${label}.`
         setTimeout(() => {
             errorMessage.value = ''
@@ -474,9 +474,6 @@ async function loadClientInfo() {
         const data = response.data
         const ci = data?.client_info
 
-        // FJERN FØR RELEASE
-        console.log('Raw API response:', data)
-
         if (!ci) {
             errorMessage.value = 'API did not return client_info payload'
             clientInfo.value = null
@@ -492,7 +489,7 @@ async function loadClientInfo() {
         clientInfo.value = ci
         await fakeDelay(LOADING_TIME)
         dataLoaded.value = true
-    } catch (error) {
+    } catch (e) {
         errorMessage.value = 'Error fetching client info'
     }
 }
