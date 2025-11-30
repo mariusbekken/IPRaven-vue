@@ -1,13 +1,13 @@
 export function getFlagSrc(countryCode) {
-  if (!countryCode || typeof countryCode !== 'string') {
-    return null
-  }
+    if (!countryCode || typeof countryCode !== 'string') {
+        return null
+    }
 
-  const code = countryCode.trim().toLowerCase()
+    const code = countryCode.trim().toLowerCase()
 
-  if (!code || code.length !== 2) {
-    return null
-  }
+    if (!code || code.length !== 2) {
+        return null
+    }
 
-  return new URL(`/src/assets/images/flags/${code}.png`, import.meta.url).href
+    return new URL(`/src/assets/images/flags/${code}.png`, import.meta.url).href
 }
