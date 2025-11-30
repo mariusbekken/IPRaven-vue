@@ -310,7 +310,7 @@ import { getFlagSrc } from '@/utils/flags'
 import { collectFullFingerprint } from '@/utils/fingerprint/index.js'
 import { getCountryName } from '@/utils/countryName.js'
 
-let LOADING_TIME = 3000
+let LOADING_TIME = 1500
 
 const clientInfo = ref(null)
 const dataLoaded = ref(false)
@@ -323,8 +323,9 @@ const flagError = ref(false)
 
 const ipravenLogo = new URL('@/assets/images/ipraven-logo.png', import.meta.url).href
 const fallbackFlagSrc = new URL('@/assets/images/flags/unknown.png', import.meta.url).href
+// Spar prettyJson til senere for mulig visning av rå json data
 const prettyJson = computed(() => clientInfo.value ? JSON.stringify(clientInfo.value, null, 2) : '')
-const countryCode = computed(() => safeInfo.value.geo.country_code || 'N/A')
+const countryCode = computed(() => safeInfo.value.geo.country_code || 'Unknown')
 const baseFlagSrc = computed(() => getFlagSrc(countryCode.value))
 
 const displayedFlagSrc = computed(() => {
@@ -342,46 +343,46 @@ const safeInfo = computed(() => {
 
     return {
         ip: {
-            address: ci.ip?.address ?? 'N/A',
-            hostname: ci.ip?.hostname ?? 'N/A',
-            version: ci.ip?.version ?? 'N/A',
+            address: ci.ip?.address ?? 'Unknown',
+            hostname: ci.ip?.hostname ?? 'Unknown',
+            version: ci.ip?.version ?? 'Unknown',
             is_private: ci.ip?.is_private ?? false
         },
 
         network: {
-            asn: ci.network?.asn ?? 'N/A',
-            org: ci.network?.org ?? 'N/A',
-            remote_port: ci.network?.remote_port ?? 'N/A'
+            asn: ci.network?.asn ?? 'Unknown',
+            org: ci.network?.org ?? 'Unknown',
+            remote_port: ci.network?.remote_port ?? 'Unknown'
         },
 
         geo: {
-            city: ci.geo?.city ?? 'N/A',
-            region: ci.geo?.region ?? 'N/A',
-            country_code: ci.geo?.country_code ?? 'N/A',
-            latitude: ci.geo?.latitude ?? 'N/A',
-            longitude: ci.geo?.longitude ?? 'N/A',
-            timezone: ci.geo?.timezone ?? 'N/A'
+            city: ci.geo?.city ?? 'Unknown',
+            region: ci.geo?.region ?? 'Unknown',
+            country_code: ci.geo?.country_code ?? 'Unknown',
+            latitude: ci.geo?.latitude ?? 'Unknown',
+            longitude: ci.geo?.longitude ?? 'Unknown',
+            timezone: ci.geo?.timezone ?? 'Unknown'
         },
 
         client: {
-            os: ci.client?.os ?? 'N/A',
-            browser: ci.client?.browser ?? 'N/A',
-            device: ci.client?.device ?? 'N/A',
-            languages: ci.client?.languages ?? 'N/A',
-            user_agent: ci.client?.user_agent ?? 'N/A',
+            os: ci.client?.os ?? 'Unknown',
+            browser: ci.client?.browser ?? 'Unknown',
+            device: ci.client?.device ?? 'Unknown',
+            languages: ci.client?.languages ?? 'Unknown',
+            user_agent: ci.client?.user_agent ?? 'Unknown',
             is_bot: ci.client?.is_bot ?? false
         },
 
         security: {
             https: ci.security?.https ?? false,
-            tls_version: ci.security?.tls_version ?? 'N/A',
+            tls_version: ci.security?.tls_version ?? 'Unknown',
             dnt: ci.security?.dnt ?? null
         },
 
         request: {
-            method: ci.request?.method ?? 'N/A',
-            full_url: ci.request?.full_url ?? 'N/A',
-            referrer: ci.request?.referrer ?? 'N/A'
+            method: ci.request?.method ?? 'Unknown',
+            full_url: ci.request?.full_url ?? 'Unknown',
+            referrer: ci.request?.referrer ?? 'Unknown'
         }
     }
 })

@@ -35,9 +35,6 @@ onMounted(async () => {
         }
 
         apiStatus.value = 'offline'
-
-        // FJERN FØR LANSERING
-        console.error('API status check failed:', e)
     }
 })
 </script>
