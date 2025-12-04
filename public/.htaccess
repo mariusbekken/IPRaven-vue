@@ -2,6 +2,9 @@
   RewriteEngine On
   RewriteBase /
 
+  RewriteCond %{HTTP_HOST} ^www\.ipraven\.com$ [NC]
+  RewriteRule ^(.*)$ https://ipraven.com/$1 [L,R=301] 
+
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^ - [L]

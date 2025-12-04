@@ -11,7 +11,7 @@
         </div>
     </header>
 
-    <div class="main">
+    <div class="main" data-nosnippet>
         <div class="error" v-if="errorMessage">
             <p>{{ errorMessage }}</p>
 
@@ -273,11 +273,11 @@
                 <div class="card-body">
                     <div class="row">
                         <span class="label">Uniqueness Score <button class="info-btn" type="button" @click="toggleScoreInfo">?</button></span>
-                        <span class="value" v-if="fingerprint.realismScore">{{ fingerprint.realismScore.total }} / 100 <span v-if="fingerprint.realismScore.label">({{ fingerprint.realismScore.label }})</span></span>
+                        <span class="value" v-if="fingerprint?.realismScore">{{ fingerprint.realismScore.total }} / 100 <span v-if="fingerprint.realismScore.label">({{ fingerprint.realismScore.label }})</span></span>
                         <span class="value" v-else>Unknown</span>
                     </div>
 
-                    <div class="card-info-box" v-if="showScoreInfo && fingerprint.realismScore">
+                    <div class="card-info-box" v-if="showScoreInfo && fingerprint?.realismScore">
                         <p><strong>What this score means:</strong></p>
                         <p>Your <strong>Uniqueness Score</strong> estimates how easy it is to identify or track your browser based on its fingerprint. A higher score means your setup is more unique compared to other users, which makes you easier to recognize across different websites.</p>
                         <p>{{ fingerprint.realismScore.message }}</p>
