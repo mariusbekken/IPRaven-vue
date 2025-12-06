@@ -131,10 +131,38 @@ h1, h2, h3, h4, h5, h6, p {
 .header-wrapper {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
     gap: 15px;
     line-height: 1;
     padding: 20px;
+}
+
+.header-nav {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-nav a {
+    background-color: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    color: #60a5fa;
+    padding: 8px 12px;
+}
+
+.header-nav a:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.header-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-right: auto;
 }
 
 .header .header-logo {
@@ -334,7 +362,7 @@ h1, h2, h3, h4, h5, h6, p {
 .footer .footer-description {
     text-align: center;
     max-width: 600px;
-    font-size: 10px;
+    font-size: 8px;
     color: #9ca3af;
     margin-bottom: 10px;
 }
@@ -366,5 +394,11 @@ h1, h2, h3, h4, h5, h6, p {
 
     .main-content .label {
         margin-bottom: 3px;
+    }
+}
+
+@media (max-width: 430px) {
+    .header .header-desc {
+        display: none;
     }
 }
