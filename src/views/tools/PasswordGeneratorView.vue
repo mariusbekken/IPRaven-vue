@@ -2,7 +2,7 @@
     <header class="header">
         <div class="header-wrapper">
             <nav class="header-nav">
-                <RouterLink to="/">Frontpage</RouterLink>
+                <RouterLink to="/">Home</RouterLink>
                 <RouterLink to="/tools">Tools</RouterLink>
             </nav>
 
@@ -18,7 +18,9 @@
         </div>
     </header>
 
-    <main class="main" data-nosnippet></main>
+    <main class="main" data-nosnippet>
+        
+    </main>
 
     <FooterComponent />
 </template>

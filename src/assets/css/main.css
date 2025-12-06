@@ -347,6 +347,48 @@ h1, h2, h3, h4, h5, h6, p {
     color: #9ca3af;
 }
 
+/* tools list */
+.tools-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    padding: 20px 0;
+}
+
+.tools-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background-color: #020617;
+    border: 1px solid #1f2937;
+    border-radius: 5px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.35);
+    text-decoration: none;
+    color: #e0e0e0;
+    padding: 15px;
+}
+
+.tools-item:hover {
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.7);
+}
+
+.tools-item img {
+    width: 100px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.tools-item h2 {
+    font-size: 16px;
+    margin: 10px 0 5px 0;
+}
+
+.tools-item p {
+    font-size: 12px;
+    color: #9ca3af;
+}
+
 /* footer */
 .footer {
     display: flex;
@@ -357,14 +399,6 @@ h1, h2, h3, h4, h5, h6, p {
     line-height: 1.5;
     padding: 0 20px 20px 20px;
     margin: 0 auto;
-}
-
-.footer .footer-description {
-    text-align: center;
-    max-width: 600px;
-    font-size: 8px;
-    color: #9ca3af;
-    margin-bottom: 10px;
 }
 
 .footer p {
@@ -383,6 +417,14 @@ h1, h2, h3, h4, h5, h6, p {
 
 .footer a:hover {
     text-decoration: underline;
+}
+
+.footer .footer-description {
+    text-align: center;
+    max-width: 600px;
+    font-size: 8px;
+    color: #9ca3af;
+    margin-top: 10px;
 }
 
 /* responsive */

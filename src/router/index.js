@@ -4,7 +4,8 @@ import IndexView from '@/views/IndexView.vue'
 import ToolsView from '@/views/ToolsView.vue'
 
 // tool views
-import PasswordGeneratorView from '@/views/PasswordGeneratorView.vue'
+import PasswordGeneratorView from '@/views/tools/PasswordGeneratorView.vue'
+import PasswordStrengthCheckerView from '@/views/tools/PasswordStrengthCheckerView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -23,6 +24,11 @@ const router = createRouter({
       path: '/password-generator',
       name: 'password-generator',
       component: PasswordGeneratorView,
+    },
+    {
+      path: '/password-strength-checker',
+      name: 'password-strength-checker',
+      component: PasswordStrengthCheckerView,
     },
     {
       path: '/:pathMatch(.*)*',

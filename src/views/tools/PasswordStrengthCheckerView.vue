@@ -19,19 +19,7 @@
     </header>
 
     <main class="main" data-nosnippet>
-        <div class="tools-list">
-            <RouterLink class="tools-item" to="/password-generator">
-                <img src="@/assets/images/tools/password-generator.png" alt="Password Generator">
-                <h2>Password Generator</h2>
-                <p>Generate strong and secure passwords to protect your online accounts.</p>
-            </RouterLink>
-
-            <RouterLink class="tools-item" to="/password-strength-checker">
-                <img src="@/assets/images/tools/password-strength-checker.png" alt="Password strength checker">
-                <h2>Password Strength Checker</h2>
-                <p>Check the strength of your passwords and get suggestions for improvement.</p>
-            </RouterLink>
-        </div>
+        
     </main>
 
     <FooterComponent />
