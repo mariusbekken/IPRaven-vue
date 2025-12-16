@@ -19,17 +19,7 @@
     </header>
 
     <main class="main" data-nosnippet>
-        <div class="tools-list">
-            <RouterLink class="tools-item" to="/password-generator">
-                <h2>Password Generator</h2>
-                <p>Generate strong and secure passwords to protect your online accounts.</p>
-            </RouterLink>
-
-            <RouterLink class="tools-item" to="/encoder-decoder">
-                <h2>Encoder / Decoder</h2>
-                <p>Encode and decode text using various encoding schemes for secure communication.</p>
-            </RouterLink>
-        </div>
+        
     </main>
 
     <FooterComponent />
