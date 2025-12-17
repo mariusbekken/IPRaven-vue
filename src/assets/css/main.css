@@ -668,7 +668,7 @@ h1, h2, h3, h4, h5, h6, p {
     }
 }
 
-@media (max-width: 430px) {
+@media (max-width: 530px) {
     .header .header-desc {
         display: none;
     }
