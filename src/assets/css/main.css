@@ -389,6 +389,211 @@ h1, h2, h3, h4, h5, h6, p {
     color: #9ca3af;
 }
 
+/* password generator */
+.pg-top {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border-bottom: 1px solid rgba(31, 41, 55, 0.5);
+    padding: 15px;
+}
+
+.pg-output {
+    display: grid;
+    grid-template-columns: 1fr auto auto auto;
+    gap: 10px;
+    align-items: center;
+}
+
+.pg-output-input {
+    background-color: rgba(0, 0, 0, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 5px;
+    width: 100%;
+    letter-spacing: 0.2px;
+    font-size: 16px;
+    color: #e5e7eb;
+    padding: 12px 12px;
+}
+
+.pg-output-input:focus {
+    border-color: rgba(96, 165, 250, 0.55);
+}
+
+.pg-icon-btn {
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1e293b;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 5px;
+    width: 42px;
+    height: 42px;
+    color: #e5e7eb;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.pg-icon-btn:hover {
+    background-color: rgba(30, 41, 59, 0.65);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.pg-icon {
+    font-size: 18px;
+    line-height: 1;
+}
+
+.pg-reveal-btn {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 5px;
+    height: 42px;
+    white-space: nowrap;
+    font-size: 14px;
+    color: #e5e7eb;
+    padding: 0 14px;
+    transition: background-color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+}
+
+.pg-reveal-btn:hover {
+    background-color: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.pg-reveal-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.pg-copy-btn {
+    cursor: pointer;
+    background: linear-gradient(90deg, #dc2626, #e11d48);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 5px;
+    height: 42px;
+    white-space: nowrap;
+    font-size: 14px;
+    color: #ffffff;
+    padding: 0 14px;
+    transition: filter 0.2s ease, opacity 0.2s ease;
+}
+
+.pg-copy-btn:hover {
+    filter: brightness(1.1);
+}
+
+.pg-copy-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.pg-strength {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.pg-strength-bar {
+    background-color: rgba(15, 23, 42, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 999px;
+    height: 10px;
+    overflow: hidden;
+}
+
+.pg-strength-fill {
+    background: linear-gradient(90deg, #ef4444, #f59e0b, #22c55e);
+    border-radius: inherit;
+    height: 100%;
+    transition: width 0.3s ease;
+}
+
+.pg-strength-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+.pg-strength-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: rgba(0, 0, 0, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+    font-weight: 700;
+    color: #e5e7eb;
+    padding: 4px 8px;
+}
+
+.pg-strength-badge[data-level="weak"] { color: #fecaca; }
+.pg-strength-badge[data-level="ok"] { color: #fde68a; }
+.pg-strength-badge[data-level="good"] { color: #bbf7d0; }
+.pg-strength-badge[data-level="strong"] { color: #86efac; }
+
+.pg-strength-hint {
+    text-align: right;
+}
+
+.pg-length {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.pg-range {
+    cursor: pointer;
+    width: 100%;
+    accent-color: #60a5fa;
+}
+
+.pg-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(96, 165, 250, 0.12);
+    border: 1px solid rgba(96, 165, 250, 0.25);
+    border-radius: 999px;
+    min-width: 44px;
+    height: 28px;
+    font-weight: 700;
+    color: #dbeafe;
+    padding: 0 10px;
+}
+
+.pg-checks {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 16px;
+}
+
+.pg-check {
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    user-select: none;
+    color: #d1d5db;
+}
+
+.pg-check input {
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    accent-color: #60a5fa;
+}
+
+.pg-inline-note {
+    text-align: right;
+    white-space: nowrap;
+}
+
 /* footer */
 .footer {
     display: flex;
@@ -436,6 +641,30 @@ h1, h2, h3, h4, h5, h6, p {
 
     .main-content .label {
         margin-bottom: 3px;
+    }
+
+    /* password generator */
+        .pg-output {
+        grid-template-columns: 1fr;
+    }
+
+    .pg-icon-btn,
+    .pg-reveal-btn,
+    .pg-copy-btn {
+        width: 100%;
+    }
+
+    .pg-strength-meta {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .pg-strength-hint {
+        text-align: left;
+    }
+
+    .pg-inline-note {
+        display: none;
     }
 }
 

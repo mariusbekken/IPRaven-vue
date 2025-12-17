@@ -3,7 +3,7 @@
         <div class="header-wrapper" v-if="errorMessage || dataLoaded">
             <nav class="header-nav">
                 <RouterLink to="/">Home</RouterLink>
-                <RouterLink to="/tools">Tools</RouterLink>
+                <RouterLink to="/password-generator">Password generator</RouterLink>
             </nav>
 
             <div class="header-brand">
