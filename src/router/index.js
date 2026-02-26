@@ -29,7 +29,6 @@ const router = createRouter({
       path: '/tools',
       name: 'tools',
       component: ToolsView,
-      redirect: '/password-generator'
     },
     {
       path: '/password-generator',
@@ -45,7 +44,6 @@ const router = createRouter({
       path: '/encoder-decoder',
       name: 'encoder-decoder',
       component: EncoderDecoderView,
-      redirect: '/password-generator'
     },
     {
       path: '/:pathMatch(.*)*',
