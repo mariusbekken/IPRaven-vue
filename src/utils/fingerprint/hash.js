@@ -1,4 +1,3 @@
-// FERDIG: src/utils/fingerprint/hash.js
 export function hashString(str) {
     if (!str || typeof str !== 'string') return '0'
 

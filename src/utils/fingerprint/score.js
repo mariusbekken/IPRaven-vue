@@ -1,4 +1,3 @@
-// FERDIG: src/utils/fingerprint/score.js
 export function computeRealismScore(fp) {
     if (!fp || !fp.available) {
         return { total: 0, bits: 0, level: 'unknown', label: 'Unknown', message: 'No fingerprint data available.', breakdown: {} }

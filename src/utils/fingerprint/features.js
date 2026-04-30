@@ -1,4 +1,3 @@
-// FERDIG: src/utils/fingerprint/features.js
 import { hashString } from './hash.js'
 
 function detectFonts() {

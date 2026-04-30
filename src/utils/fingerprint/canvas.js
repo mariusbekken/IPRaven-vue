@@ -1,4 +1,3 @@
-// FERDIG: src/utils/fingerprint/canvas.js
 import { hashString } from './hash.js'
 
 export function getCanvasFingerprint() {

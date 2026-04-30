@@ -1,4 +1,3 @@
-// FERDIG: src/utils/fingerprint/base.js
 export function collectBaseFingerprint() {
     if (typeof window === 'undefined' || typeof navigator === 'undefined') {
         return {

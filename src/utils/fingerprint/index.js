@@ -1,4 +1,3 @@
-// FERDIG: src/utils/fingerprint/index.js
 import { collectBaseFingerprint } from './base.js'
 import { getCanvasFingerprint, getWebglFingerprint } from './canvas.js'
 import { getAudioFingerprint } from './audio.js'

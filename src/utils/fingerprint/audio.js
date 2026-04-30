@@ -1,4 +1,3 @@
-// FERDIG: src/utils/fingerprint/audio.js
 import { hashString } from './hash.js'
 
 export function getAudioFingerprint() {

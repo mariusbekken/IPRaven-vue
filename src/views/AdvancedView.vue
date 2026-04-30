@@ -330,7 +330,6 @@ const flagError = ref(false)
 
 const ipravenLogo = new URL('@/assets/images/ipraven-logo.png', import.meta.url).href
 const fallbackFlagSrc = new URL('@/assets/images/flags/unknown.png', import.meta.url).href
-// Spar prettyJson til senere for mulig visning av rå json data
 const prettyJson = computed(() => clientInfo.value ? JSON.stringify(clientInfo.value, null, 2) : '')
 const countryCode = computed(() => safeInfo.value.geo.country_code || 'Unknown')
 const baseFlagSrc = computed(() => getFlagSrc(countryCode.value))

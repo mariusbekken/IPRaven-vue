@@ -3,9 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import IndexView from '@/views/IndexView.vue'
 import ToolsView from '@/views/ToolsView.vue'
 
-// tool views
 import PasswordGeneratorView from '@/views/tools/PasswordGeneratorView.vue'
-import EncoderDecoderView from '@/views/tools/EncoderDecoderView.vue'
 
 const SITE_NAME = 'IPRaven'
 const SITE_URL = 'https://ipraven.com'
@@ -39,11 +37,6 @@ const router = createRouter({
         description : 'Generate strong and secure passwords with IPRaven\'s Password Generator tool. Customize length and complexity to suit your security needs.',
         canonical : `${SITE_URL}/password-generator`,
       }
-    },
-    {
-      path: '/encoder-decoder',
-      name: 'encoder-decoder',
-      component: EncoderDecoderView,
     },
     {
       path: '/:pathMatch(.*)*',
